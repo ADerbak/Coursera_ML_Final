@@ -2,7 +2,10 @@
 title: "Coursera - Machine Learning Final Project"
 author: "Andrew Derbak"
 date: "January 11, 2018"
-output: html_document
+output:
+  html_document:
+    keep md: yes
+  pdf_document: default
 ---
 #Project Introduction
 ###Background
