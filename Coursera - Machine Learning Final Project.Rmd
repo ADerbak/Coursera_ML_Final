@@ -7,23 +7,23 @@ output:
     keep_md: yes
   pdf_document: default
 ---
-#Project Introduction
-###Background
+# Project Introduction
+### Background
 Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
 
-###Data
+### Data
 The training data for this project are available here: https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
 
 The test data are available here: https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
 
 The data for this project come from this source: http://groupware.les.inf.puc-rio.br/har. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment.
 
-###Goal
+### Goal
 The goal of your project is to predict the manner in which they did the exercise. This is the "classe" variable in the training set. You may use any of the other variables to predict with. You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did. You will also use your prediction model to predict 20 different test cases.
 
-#Preliminary Work
+# Preliminary Work
 
-###Packages Needed
+### Packages Needed
 First, we will need to load the necessary packages.
 ```{r, echo=TRUE, message=FALSE}
 library(knitr)
@@ -47,7 +47,7 @@ testingfile <- read.csv(url(testUrl), na.strings=c("NA","#DIV/0!",""))
 ```
 
 
-#Data Cleaning
+# Data Cleaning
 
 Before we can proceed, we need to clean the data of any issues. We will get rid of any columns that have missing values or are unhelpful for classification.
 
@@ -65,7 +65,7 @@ dim(trainingfile);dim(testingfile)
 
 After getting rid of the missing and unhelpful values, we now end up with 53 variables to help us predict the exercise style.
 
-#Data Splitting
+# Data Splitting
 
 From here, we can split the trainingfile into a training and testing set. Once we use create a strong model off of these sets, we will then apply this model to the testingfile.
 
@@ -76,9 +76,9 @@ training <- trainingfile[inTrain, ]
 testing <- trainingfile[-inTrain, ]
 ```
 
-#Data Modeling
+# Data Modeling
 
-###Decision Tree
+### Decision Tree
 We will start with a basic decision tree to see how accurate we can get.
 
 ```{r, echo=TRUE}
@@ -93,7 +93,7 @@ confusionMatrix(predictdt, testing$classe)
 
 The prediction is a bit messy (a lot of values between different classes) and our overall accuracy is only 77.6%.
 
-###Random Forest
+### Random Forest
 Now, if we model using the Random Forest algorithm, it will automatically select the important variables and be more robust overall. 
 
 ```{r, echo=TRUE}
@@ -107,14 +107,14 @@ predictrf <- predict(modFitRF, testing, type = "class")
 confusionMatrix(predictrf, testing$classe)
 ```
 
-#Conclusion
+# Conclusion
 
   We can see substantial improvement from the Decision Tree method to the Random Forest method. With Random Forest, we get 99% accuracy rate from our model, while the Decision Tree method only had a 77.6% accuracy rate. 
   
   Out of sample error rate is `r (100-99.38)`% for the Random Forest model.
   
   
-#Quiz Results
+# Quiz Results
   
 ```{r, echo=TRUE}
 predictionRF <- predict(modFitRF, testingfile, type = 'class')
